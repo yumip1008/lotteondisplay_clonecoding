@@ -100,6 +100,7 @@ export default {
     emitSelectedProduct(){
       this.$emit('getClickProduct', this.selectedProducts);
     },
+
     emitSelectedAllProduct(){
       if(this.isAllSelected){
         this.selectedProducts = this.originSelectedProducts;
@@ -108,6 +109,7 @@ export default {
       }
       this.$emit('getClickProduct', this.selectedProducts);
     },
+
     emitMinusOdQty : _.debounce(function(cartDetail) {
       const cartDto = ObjectMapperUtil.convertCartDto(cartDetail);
       cartDto.odQty--;
@@ -119,20 +121,25 @@ export default {
       cartDto.odQty++;
       this.$emit('updateCart', cartDto, cartDetail);
     }, 500),
-    isLessThanMinOdQty(odQty, minOdQty){
-      return odQty <= minOdQty;
-    },
-    isGreaterThanMaxOdQty(odQty,maxOdQty){
-      return odQty >= maxOdQty;
-    },
+
     emitDelete : _.debounce(function(cartDetail){
       this.$emit('deleteCart', cartDetail);
     }, 500),
-    emitDeleteClicked(){
+
+    emitDeleteClicked : _.debounce(function(){
       let cartSnArr = [];
-      document.querySelectorAll('input[name=single-item]:checked').forEach(e => cartSnArr.push(e.id));
+      document.querySelectorAll('input[name=single-item]:checked').forEach(element => cartSnArr.push(element.id));
       this.$emit('deleteClickedCart', cartSnArr);
+    }, 500),
+
+    isLessThanMinOdQty(odQty, minOdQty){
+      return odQty <= minOdQty;
     },
+
+    isGreaterThanMaxOdQty(odQty,maxOdQty){
+      return odQty >= maxOdQty;
+    },
+
     getTotalPrice(cartDetail){
       return cartDetail.slPrc * cartDetail.odQty;
     },

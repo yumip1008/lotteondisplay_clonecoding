@@ -36,7 +36,6 @@ public class CartService implements ICartService {
 
     private final ObjectMapperUtil objectMapperUtil;
 
-
     @Override
     public Mono<Cart> create(CartDto cartDto) {
         //장바구니에 동일상품이 존재하면 에외 발생, 그렇지 않을 때만 save
@@ -97,7 +96,6 @@ public class CartService implements ICartService {
 
     //장바구니 개수 만큼 API 호출
     public Mono<Map<String, Collection<CartDetailDto>>> getCartsAllByGroup(String mbNo){
-
         return cartRepository.findAllByMbNoOrderbyRegDttm(mbNo)
                 .concatMap(cart ->
                         productService.getProduct(new ProductDetailRequest(cart.getSpdNo(), cart.getSitmNo()))

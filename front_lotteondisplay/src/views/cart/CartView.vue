@@ -9,7 +9,8 @@
       @getClickProduct="setClickProduct"
       @updateCart="updateCart"
       @deleteCart="deleteCart"
-      @deleteClickedCart="deleteClickedCart"/>
+      @deleteClickedCart="deleteClickedCart"
+      @deleteCarts="deleteCarts"/>
 
       <total-price class="cart-payment" 
       :totalPrice="totalPrice"
@@ -108,6 +109,19 @@ export default {
 
     deleteCart(cartDetail){
       CartApi.delete(cartDetail.cartSn).then(() => {
+        this.setCartsAfterDelete(cartDetail);    
+        alert("삭제가 완료되었습니다!");
+      }).catch(error => console.log(error));
+    },
+
+    deleteClickedCart(cartSnArr){
+      CartApi.deleteCarts(cartSnArr).then(() => {
+        this.$router.go();
+        alert("삭제가 완료되었습니다!");
+      }).catch(error => console.log(error));
+    },
+
+    setCartsAfterDelete(cartDetail){
         const lrtrNo = cartDetail.lrtrNo;
         const lengthOfCarts = this.cartMap[lrtrNo].length;
         if(lengthOfCarts > 1){
@@ -118,17 +132,7 @@ export default {
           this.$delete(this.cartMap, lrtrNo);
         }
         //삭제된 장바구니 clickedProducts에서 삭제 (-> watch에 의해 전체 가격, 상품 개수 정보 update 됨)
-        this.$delete(this.clickedProducts, this.clickedProducts.indexOf(cartDetail.sitmNo));       
-        alert("삭제가 완료되었습니다!");
-      }).catch(error => console.log(error));
-    },
-
-    deleteClickedCart(cartSnArr){
-      console.log(cartSnArr);
-      CartApi.deleteCarts(cartSnArr).then(() => {
-        this.$router.go();
-        alert("삭제가 완료되었습니다!");
-      })
+        this.$delete(this.clickedProducts, this.clickedProducts.indexOf(cartDetail.sitmNo));
     }
     
   },
