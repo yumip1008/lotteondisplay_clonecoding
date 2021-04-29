@@ -24,6 +24,11 @@ class CartApi {
         const response = (await this.client.delete({cartSn : cartSn})).status;
         return response;
     }
+
+    async deleteCarts(cartSnArr){
+        const response = (await this.client.postURL("/deleteCarts", cartSnArr)).status;
+        return response;
+    }
 }
 
 const instance = new CartApi();

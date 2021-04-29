@@ -15,6 +15,10 @@ class AxiosClient {
         return await this.client.post(this.baseURL, data);
     }
 
+    async postURL(url, data) {
+        return await this.client.post(this.baseURL+url, data);
+    }
+
     async get(params) {
         return await this.client.get(this.baseURL, {params: params});
     }

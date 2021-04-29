@@ -10,7 +10,7 @@
 
       <div class="delete-btn-area">
         <button class="delete-btn">품절상품삭제</button>
-        <button class="delete-btn">선택삭제</button>
+        <button class="delete-btn" @click="emitDeleteClicked">선택삭제</button>
       </div>
     </div>
 
@@ -23,9 +23,11 @@
         <div class="cart-content-area" v-for="(cartDetail, index) in value" :key="index">
           <div class="cart-content">
             <div class="cart-content-checkbox">
-              <input  type="checkbox" 
-                      class="item-checkbox" 
+              <input  type="checkbox"
+                      class="item-checkbox"
+                      name="single-item" 
                       :value="cartDetail.sitmNo"
+                      :id="cartDetail.cartSn"
                       v-model="selectedProducts"
                       @change="emitSelectedProduct"
               >
@@ -126,9 +128,15 @@ export default {
     emitDelete : _.debounce(function(cartDetail){
       this.$emit('deleteCart', cartDetail);
     }, 500),
+    emitDeleteClicked(){
+      let cartSnArr = [];
+      document.querySelectorAll('input[name=single-item]:checked').forEach(e => cartSnArr.push(e.id));
+      this.$emit('deleteClickedCart', cartSnArr);
+    },
     getTotalPrice(cartDetail){
       return cartDetail.slPrc * cartDetail.odQty;
     },
+    
   },
 }
 </script>

@@ -8,7 +8,8 @@
       :clickedProducts="clickedProducts"
       @getClickProduct="setClickProduct"
       @updateCart="updateCart"
-      @deleteCart="deleteCart"/>
+      @deleteCart="deleteCart"
+      @deleteClickedCart="deleteClickedCart"/>
 
       <total-price class="cart-payment" 
       :totalPrice="totalPrice"
@@ -120,7 +121,16 @@ export default {
         this.$delete(this.clickedProducts, this.clickedProducts.indexOf(cartDetail.sitmNo));       
         alert("삭제가 완료되었습니다!");
       }).catch(error => console.log(error));
+    },
+
+    deleteClickedCart(cartSnArr){
+      console.log(cartSnArr);
+      CartApi.deleteCarts(cartSnArr).then(() => {
+        this.$router.go();
+        alert("삭제가 완료되었습니다!");
+      })
     }
+    
   },
   watch : {
     clickedProducts : function(){
