@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -36,5 +38,10 @@ public class CartController {
     @DeleteMapping
     public Mono<Void> deleteCart(@RequestParam String cartSn){
         return cartService.deleteCart(cartSn);
+    }
+
+    @PostMapping("/deleteCarts")
+    public Mono<Void> deleteCarts(@RequestBody List<String> cartSns){
+        return cartService.deleteAllByIds(cartSns);
     }
 }

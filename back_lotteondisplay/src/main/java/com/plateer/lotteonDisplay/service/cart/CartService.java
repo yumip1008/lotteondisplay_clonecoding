@@ -112,4 +112,10 @@ public class CartService implements ICartService {
         return cartRepository.deleteById(cartSn);
     }
 
+    @Override
+    public Mono<Void> deleteAllByIds(List<String> cartSns) {
+        return cartRepository.deleteAllByIds(cartSns);
+    }
+
+
 }

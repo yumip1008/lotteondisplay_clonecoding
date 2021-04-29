@@ -6,7 +6,9 @@ import com.plateer.lotteonDisplay.dto.cart.CartDetailDto;
 import com.plateer.lotteonDisplay.dto.cart.CartDto;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public interface ICartService {
@@ -20,5 +22,7 @@ public interface ICartService {
     Mono<Map<String, Collection<CartDetailDto>>> getCartsAllByGrouping(String mbNo);
 
     Mono<Void> deleteCart(String cartSn);
+
+    Mono<Void> deleteAllByIds(List<String> cartSn);
 
 }
