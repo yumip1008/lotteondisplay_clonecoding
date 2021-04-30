@@ -25,7 +25,7 @@
 import {ProductDisplayMenu, ProductDisplaySort, ProductDisplayList,  AppPagination} from '@/components'
 import {ProductApi, CartApi} from '@/api'
 import {CatePdList, ProductDisplayOption} from '@/model'
-import {ObjectMapperUtil} from '@/util'
+import {ObjectMapperUtil, SuccessErrorMsgUtil} from '@/util'
 
 export default {
   components: { 
@@ -67,9 +67,12 @@ export default {
         }
     },
     methods : {
-        async setUpProductList(){
-            const productList  = await this.getProductList();
-            this.setProdutList(productList);
+        setUpProductList(){
+            this.getProductList()
+            .then(response => this.setProdutList(response))
+            .catch(error => {    
+                SuccessErrorMsgUtil.handleError(error);
+            })
         },
         setProdutList(response){
            this.catePdList = response;
@@ -111,11 +114,11 @@ export default {
             
             //카트 등록 API 호출
             CartApi.create(cartDto).then(() => {
-               alert('해당 상품이 장바구니에 등록되었습니다!')
+               SuccessErrorMsgUtil.handleSuccess("장바구니 등록이 완료되었습니다.");
             }).catch(error => {
-                alert(error.response.data);
+                SuccessErrorMsgUtil.handleError(error);
             })
-        }
+        },
     }
 
 }

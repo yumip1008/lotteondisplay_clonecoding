@@ -96,9 +96,10 @@ public class CartService implements ICartService {
 
     //장바구니 개수 만큼 API 호출
     public Mono<Map<String, Collection<CartDetailDto>>> getCartsAllByGroup(String mbNo){
+        //DB에서 Cart를 불러옴
         return cartRepository.findAllByMbNoOrderbyRegDttm(mbNo)
-                .concatMap(cart ->
-                        productService.getProduct(new ProductDetailRequest(cart.getSpdNo(), cart.getSitmNo()))
+                .concatMap(cart ->  //concatMap으로 cart로 API 호출에 필요한 request를 만든 후 api 호출
+                        productService.getProduct(new ProductDetailRequest(cart.getSpdNo(), cart.getSitmNo()))  //상품상세정보(pdto)와 cart를 이용해 front에 보낼 cartDetail 만들기
                                 .map(pdto ->objectMapperUtil.convertCartDetailDto(pdto, cart))
                 )
                 .collectMultimap(CartDetailDto::getLrtrNo);

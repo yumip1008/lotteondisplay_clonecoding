@@ -10,7 +10,7 @@
       @updateCart="updateCart"
       @deleteCart="deleteCart"
       @deleteClickedCart="deleteClickedCart"
-      @deleteCarts="deleteCarts"/>
+      />
 
       <total-price class="cart-payment" 
       :totalPrice="totalPrice"
@@ -22,6 +22,7 @@
 import {CartMenu, CartDetail, TotalPrice} from '@/components'
 import {CartApi} from '@/api'
 import {ProductPriceInfo} from '@/model'
+import {SuccessErrorMsgUtil} from '@/util'
 
 export default {
   components: { 
@@ -49,8 +50,11 @@ export default {
     },
 
     async setUpCartList(){
-      const cartMap = await this.getCartList();
-      this.setCartList(cartMap);
+      await this.getCartList()
+      .then(response => this.setCartList(response))
+      .catch(error => {
+        SuccessErrorMsgUtil.handleError(error);
+      });
     },
 
     async getCartList(){
@@ -90,7 +94,6 @@ export default {
           computedPrice += price;
         })
       }
-
       this.totalPrice = computedPrice;
     },
 
@@ -110,15 +113,19 @@ export default {
     deleteCart(cartDetail){
       CartApi.delete(cartDetail.cartSn).then(() => {
         this.setCartsAfterDelete(cartDetail);    
-        alert("삭제가 완료되었습니다!");
-      }).catch(error => console.log(error));
+         SuccessErrorMsgUtil.handleSuccess("장바구니 삭제가 완료되었습니다.")
+      }).catch(error => {
+        SuccessErrorMsgUtil.handleError(error);
+      });
     },
 
     deleteClickedCart(cartSnArr){
       CartApi.deleteCarts(cartSnArr).then(() => {
         this.$router.go();
-        alert("삭제가 완료되었습니다!");
-      }).catch(error => console.log(error));
+        SuccessErrorMsgUtil.handleSuccess("장바구니 삭제가 완료되었습니다.")
+      }).catch(error => {
+        SuccessErrorMsgUtil.handleError(error);
+      });
     },
 
     setCartsAfterDelete(cartDetail){
@@ -133,8 +140,7 @@ export default {
         }
         //삭제된 장바구니 clickedProducts에서 삭제 (-> watch에 의해 전체 가격, 상품 개수 정보 update 됨)
         this.$delete(this.clickedProducts, this.clickedProducts.indexOf(cartDetail.sitmNo));
-    }
-    
+    },
   },
   watch : {
     clickedProducts : function(){
@@ -154,16 +160,13 @@ export default {
   "cd cd cd cd cd cd cd cp";
   column-gap : 60px;
 }
-
 .cart-menu {
   grid-area: cm;
   margin-bottom : 10px;
 }
-
 .cart-detail {
   grid-area : cd;
 }
-
 .cart-payment {
   grid-area : cp;
 }

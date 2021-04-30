@@ -82,7 +82,6 @@
 import {ObjectMapperUtil} from '@/util'
 import {convertedPrice} from '@/mixins'
 import _ from 'lodash'
-
 export default {
   mixins : [convertedPrice],
   props : {
@@ -100,7 +99,6 @@ export default {
     emitSelectedProduct(){
       this.$emit('getClickProduct', this.selectedProducts);
     },
-
     emitSelectedAllProduct(){
       if(this.isAllSelected){
         this.selectedProducts = this.originSelectedProducts;
@@ -109,37 +107,30 @@ export default {
       }
       this.$emit('getClickProduct', this.selectedProducts);
     },
-
     emitMinusOdQty : _.debounce(function(cartDetail) {
       const cartDto = ObjectMapperUtil.convertCartDto(cartDetail);
       cartDto.odQty--;
       this.$emit('updateCart', cartDto, cartDetail);
     }, 500),
-
     emitPlustOdQty : _.debounce(function(cartDetail){
       const cartDto = ObjectMapperUtil.convertCartDto(cartDetail);
       cartDto.odQty++;
       this.$emit('updateCart', cartDto, cartDetail);
     }, 500),
-
     emitDelete : _.debounce(function(cartDetail){
       this.$emit('deleteCart', cartDetail);
     }, 500),
-
     emitDeleteClicked : _.debounce(function(){
       let cartSnArr = [];
       document.querySelectorAll('input[name=single-item]:checked').forEach(element => cartSnArr.push(element.id));
       this.$emit('deleteClickedCart', cartSnArr);
     }, 500),
-
     isLessThanMinOdQty(odQty, minOdQty){
       return odQty <= minOdQty;
     },
-
     isGreaterThanMaxOdQty(odQty,maxOdQty){
       return odQty >= maxOdQty;
     },
-
     getTotalPrice(cartDetail){
       return cartDetail.slPrc * cartDetail.odQty;
     },
@@ -152,24 +143,19 @@ export default {
 .item-control-area {
   display: block;
 }
-
 .item-all-check {
     float: left;  
 }
-
 .item-checkbox {
   margin-right: 10px;
 }
-
 .item-all-check-text{
   color: #333;
   font-size: 14px;
 }
-
 .delete-btn-area{
   float :right;
 }
-
 .delete-btn{
     height: 32px;
     padding: 0 12px;
@@ -182,24 +168,19 @@ export default {
     border-radius: 6px;
     border: 1px solid #ddd;
 }
-
 .cartlist-by-Irtr{
   margin-top : 50px;
   border-radius: 10px;
   border: 1px solid #ddd;
 }
-
 .cart-by-tr {
   margin-bottom : 10px;
 }
-
 .cart-header{
   height: 53px;
   padding: 0 20px 0 19px;
   border-bottom: 1px solid #eee;
 }
-
-
 .cart-header-text{
   display: inline-block;
   font-size: 18px;
@@ -215,20 +196,17 @@ export default {
   padding : 24px 4px 24px 4px;
   border-bottom: 1px solid #eee;
 }
-
 .cart-content {
   position : relative;
   padding-left : 28px;
   display: flex;
 }
-
 .cart-content-checkbox{
   margin-right : 5px;
 }
 .cart-content-img-area{
   display: inline;  
 }
-
 .cart-content-img{
   width: 80px;
   min-width: 80px;
@@ -236,25 +214,21 @@ export default {
   margin-right: 12px;
   border-radius: 6px;
 }
-
 .cart-content-info{
   display: inline;
   margin-bottom: 4px;
   letter-spacing: normal;
   color: #333;
 }
-
 .cart-content-top {
  margin-bottom: 5px;
   line-height: 1.47;
   letter-spacing: -.3px;
   color: #333
 }
-
 .cart-content-brand{
   font-weight: bold;
 }
-
 .cart-content-delivery{
   display: block;
   margin-top: 6px;
@@ -263,7 +237,6 @@ export default {
   letter-spacing: -.3px;
   color: #4185ed;
 }
-
 .cart-quantity{
   position : relative;
    display: flex;
@@ -274,7 +247,6 @@ export default {
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
 }
-
 .quantity-box{
   width: 110px;
   height: 32px;
@@ -283,7 +255,6 @@ export default {
   background-color: #fff;
   display: flex;
 }
-
 .quantity-minus-btn{
   width: 30px;
   height: 30px;
@@ -292,17 +263,14 @@ export default {
 .quantity-minus-btn:disabled {
  opacity: .25; 
 }
-
 .quantity-plus-btn{
    width: 30px;
   height: 30px;
   background: url(//static.lotteon.com/p/order/assets/img/btn_plus.svg) no-repeat 50%;
 }
-
 .quantity-plus-btn:disabled{
   opacity: .25;
 }
-
 .quantity {
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -312,12 +280,10 @@ export default {
   width: 42px;
   font-size: 13px;
 }
-
 .cart-price{
   position : relative;
   text-align: center;
 }
-
 .cart-price-text{
     display: inline-block;
     font-size: 14px;
@@ -325,14 +291,12 @@ export default {
     letter-spacing: -.3px;
     color: #333;
 }
-
 .cart-price-text > strong{
    font-size: 18px;
     letter-spacing: normal;
     color: #333;
     vertical-align: top;
 }
-
 .cart-delete{
   padding-right : 10px;
 }
@@ -346,6 +310,5 @@ export default {
   background-size: 100% 100%; 
   background-image: url(//static.lotteon.com/p/order/assets/img/icon_delete-item_new.svg);
 }
-
    
 </style>

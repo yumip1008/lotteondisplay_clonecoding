@@ -1,5 +1,9 @@
 <template>
   <div class="wrapper">
+    <div class="spinner">
+      <moon-loader :loading="loading" :color="color" :size="size"></moon-loader >
+    </div>
+
     <div class="header">
     <app-header-view/>
     </div>
@@ -15,13 +19,24 @@
 
 <script>
 import {AppHeaderView, AppContentView} from '@/views'
-
+import {mapGetters} from 'vuex'
+import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 
 export default {
   name: 'App',
   components: {
     AppHeaderView,
-    AppContentView
+    AppContentView,
+    MoonLoader
+  },
+  data : function() {
+    return {
+        color: '#1678C2',
+        size : '80px'
+      }
+  },
+  computed : {
+    ...mapGetters({loading : 'getLoading'})
   }
 }
 </script>
@@ -46,5 +61,13 @@ export default {
 
 .footer {
   grid-area: footer;
+}
+
+.spinner {
+  position: absolute;
+  top : 50%;
+  left: 50%;
+  margin: -50px 0 0 -50px;
+  z-index : 3;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
       <v-divider></v-divider>
-      <v-container fluid>
+      <v-container v-lazy-container="{ selector : 'img'}" fluid >
           <v-row>
               <v-col v-for="(data, index) in dataList" :key="index" cols="2"> 
                 <v-card
