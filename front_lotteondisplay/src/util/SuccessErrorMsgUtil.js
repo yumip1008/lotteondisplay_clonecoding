@@ -7,7 +7,7 @@ class SuccessErrorMsgUtil {
     
     handleError(error){
         if(error.code === "ECONNABORTED"){
-            SwalUtil.error("서버 상태가 좋지 않습니다. 다시 시도해주세요.");
+            SwalUtil.serverError();
         }else{
             SwalUtil.error(error.response.data);
         }
